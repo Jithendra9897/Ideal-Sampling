@@ -1,93 +1,74 @@
-# Ideal-Sampling
+# EX-01
+# Write a simple Ideal sampling program using Python .
 
-**Aim :**
 
-        To Study and Analyze the Ideal SAmpling
+# Aim
+The aim of this program is to demonstrate the concept of ideal sampling by discretizing a continuous signal at \
+regular intervals. It visualizes both the continuous signal and its corresponding discrete samples to illustrate 
+the sampling process in signal processing.
 
-**Tools required**;
-    
-         Personal Computer with COLAB Software
-    
-**Program:**
-
-#Impulse Sampling
-
+## Tools required
+Python: A versatile programming language used for scientific computing and signal processing.
+NumPy: A powerful numerical library in Python for performing array-based operations and mathematical computations.
+Matplotlib: A plotting library for generating high-quality graphs and visualizations of data, essentialfor demonstrating the sampling process.
+      
+## Program
+```
 import numpy as np
 
 import matplotlib.pyplot as plt
 
-from scipy.signal import resample
+fs = 100  # Sampling frequency (samples per second)
 
-fs = 100
+f = 5  # Frequency of the sine wave (in Hz)
 
-t = np.arange(0, 1, 1/fs) 
+T = 1 / f  # Period of the sine wave
 
-f = 5
+t_continuous = np.linspace(0, 1, 1000)  # High-resolution time array for continuous signal
 
-signal = np.sin(2 * np.pi * f * t)
+t_sampled = np.arange(0, 1, 1/fs)  # Time points for ideal sampling
 
-plt.figure(figsize=(10, 4))
+continuous_signal = np.sin(2 * np.pi * f * t_continuous)
 
-plt.plot(t, signal, label='Continuous Signal')
+sampled_signal = np.sin(2 * np.pi * f * t_sampled)
 
-plt.title('Continuous Signal (fs = 100 Hz)')
+fig, axs = plt.subplots(2, 1, figsize=(12, 8))
 
-plt.xlabel('Time [s]')
+axs[0].plot(t_continuous, continuous_signal, label="Continuous Signal (Sine Wave)", color='b', linewidth=2)
 
-plt.ylabel('Amplitude')
+axs[0].set_title("Continuous Sine Wave")
 
-plt.grid(True)
+axs[0].set_xlabel("Time [s]")
 
-plt.legend()
+axs[0].set_ylabel("Amplitude")
 
-plt.show()
+axs[0].grid(True)
 
-t_sampled = np.arange(0, 1, 1/fs)
+axs[0].legend(loc="best")
 
-signal_sampled = np.sin(2 * np.pi * f * t_sampled)
+axs[1].plot(t_continuous, continuous_signal, label="Continuous Signal", color='b', alpha=0.7)
 
-plt.figure(figsize=(10, 4))
+axs[1].stem(t_sampled, sampled_signal, 'r', markerfmt='ro', basefmt=" ", linefmt='r-', label="Ideal Samples")
 
-plt.plot(t, signal, label='Continuous Signal', alpha=0.7)
+axs[1].set_title("Ideal Sampling of the Sine Wave")
 
-plt.stem(t_sampled, signal_sampled, linefmt='r-', markerfmt='ro', basefmt='r-', label='Sampled Signal (fs = 100 Hz)')
+axs[1].set_xlabel("Time [s]")
 
-plt.title('Sampling of Continuous Signal (fs = 100 Hz)')
+axs[1].set_ylabel("Amplitude")
 
-plt.xlabel('Time [s]')
+axs[1].grid(True)
 
-plt.ylabel('Amplitude')
+axs[1].legend(loc="best")
 
-plt.grid(True)
-
-plt.legend()
+plt.tight_layout()
 
 plt.show()
+```
+## Output waveform   
+ ![Screenshot 2025-03-17 202545](https://github.com/user-attachments/assets/3cfd2698-3488-4664-bc48-20f30d27ffef)
+![WhatsApp Image 2025-03-25 at 10 09 36_16516775](https://github.com/user-attachments/assets/988e6300-c3df-45d0-9a9c-4d3333602307)
 
-reconstructed_signal = resample(signal_sampled, len(t))
-
-plt.figure(figsize=(10, 4))
-
-plt.plot(t, signal, label='Continuous Signal', alpha=0.7)
-
-plt.plot(t, reconstructed_signal, 'r--', label='Reconstructed Signal (fs = 100 Hz)')
-
-plt.title('Reconstruction of Sampled Signal (fs = 100 Hz)')
-
-plt.xlabel('Time [s]')
-
-plt.ylabel('Amplitude')
-
-plt.grid(True)
-
-plt.legend()
-
-plt.show()
-
-**Output Waveform :**
-![image](https://github.com/user-attachments/assets/416c1e20-01e2-432f-a872-ceb803d0891e)
-
-
-**Results:**
-
-         Verified and Analyze the Ideal Sampling    
+## Result 
+   The results show two plots: the first displays a continuous sine wave with a 5 Hz frequency. The second plot illustrates the ideal
+   sampling of the sine wave, where the samples (red dots) are taken at regular intervals (100 Hz sampling rate). The ideal samples perfectly
+   match the continuous signal, with no distortion or aliasing, as the sampling rate is sufficiently high.
